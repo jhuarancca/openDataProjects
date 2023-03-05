@@ -1,13 +1,14 @@
+/*
 select * from dataFallecidos
 WHERE "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
 and fecha>'2023-03-01';
-
-
+*/
+/*
 select "DEPARTAMENTO DOMICILIO",*
 from dataFallecidos
 WHERE "PAIS DOMICILIO" ='PERU'
 AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO');
-
+*/
 
 select fecha, count(*) as fallecidos
 from dataFallecidos
@@ -34,10 +35,45 @@ group by departamento) as p
 where p.departamento=f.departamento;
 
 
-select sexo, count(*) as fallecidos
+select sexo, 
+CASE 
+     WHEN cast(edad AS INTEGER)>0 and cast(edad AS INTEGER) <=10 THEN '0-10'
+     WHEN cast(edad AS INTEGER)>10 and cast(edad AS INTEGER) <=20 THEN '11-20'
+     WHEN cast(edad AS INTEGER)>20 and cast(edad AS INTEGER) <=30 THEN '21-30'
+     WHEN cast(edad AS INTEGER)>30 and cast(edad AS INTEGER) <=40 THEN '31-40'
+     WHEN cast(edad AS INTEGER)>40 and cast(edad AS INTEGER) <=50 THEN '41-50'
+     WHEN cast(edad AS INTEGER)>50 and cast(edad AS INTEGER) <=60 THEN '51-60'
+     WHEN cast(edad AS INTEGER)>60 and cast(edad AS INTEGER) <=70 THEN '61-70'
+     WHEN cast(edad AS INTEGER)>70 and cast(edad AS INTEGER) <=80 THEN '71-80'
+     WHEN cast(edad AS INTEGER)>80 and cast(edad AS INTEGER) <=90 THEN '81-90'
+     ELSE '91-110'
+END as edad,
+count(*) as fallecidos
 from dataFallecidos
 WHERE "PAIS DOMICILIO" ='PERU'
 AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
 AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
 AND sexo not in ('INDETERMINADO','SIN REGISTRO')
-group by 1;
+group by 1,2;
+
+
+/*
+select 
+CASE 
+     WHEN cast(edad AS INTEGER)>0 and cast(edad AS INTEGER) <=10 THEN '0-10'
+     WHEN cast(edad AS INTEGER)>10 and cast(edad AS INTEGER) <=20 THEN '11-20'
+     WHEN cast(edad AS INTEGER)>20 and cast(edad AS INTEGER) <=30 THEN '21-30'
+     WHEN cast(edad AS INTEGER)>30 and cast(edad AS INTEGER) <=40 THEN '31-40'
+     WHEN cast(edad AS INTEGER)>40 and cast(edad AS INTEGER) <=50 THEN '41-50'
+     WHEN cast(edad AS INTEGER)>50 and cast(edad AS INTEGER) <=60 THEN '51-60'
+     WHEN cast(edad AS INTEGER)>60 and cast(edad AS INTEGER) <=70 THEN '61-70'
+     WHEN cast(edad AS INTEGER)>70 and cast(edad AS INTEGER) <=80 THEN '71-80'
+     WHEN cast(edad AS INTEGER)>80 and cast(edad AS INTEGER) <=90 THEN '81-90'
+     ELSE '91-110'
+END,EDAD
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
+AND sexo not in ('INDETERMINADO','SIN REGISTRO');
+*/
