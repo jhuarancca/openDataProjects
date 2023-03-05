@@ -1,0 +1,43 @@
+select * from dataFallecidos
+WHERE "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+and fecha>'2023-03-01';
+
+
+select "DEPARTAMENTO DOMICILIO",*
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO');
+
+
+select fecha, count(*) as fallecidos
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
+AND sexo not in ('INDETERMINADO','SIN REGISTRO')
+group by fecha
+order by fecha desc;
+
+
+select p.departamento, p.poblacion, f.fallecidos
+from (
+select "DEPARTAMENTO DOMICILIO" as departamento, count(*) as fallecidos
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
+AND sexo not in ('INDETERMINADO','SIN REGISTRO')
+group by 1) as f,
+( select departamento,sum(cantidad) as poblacion
+from poablacionPeru
+group by departamento) as p
+where p.departamento=f.departamento;
+
+
+select sexo, count(*) as fallecidos
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
+AND sexo not in ('INDETERMINADO','SIN REGISTRO')
+group by 1;
