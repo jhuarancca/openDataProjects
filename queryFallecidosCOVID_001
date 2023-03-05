@@ -1,0 +1,21 @@
+select * from dataFallecidos
+WHERE "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO');
+
+
+select fecha, count(*) as fallecidos
+from dataFallecidos
+WHERE "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+group by fecha;
+
+
+select "DEPARTAMENTO DOMICILIO",*
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO');
+
+select "DEPARTAMENTO DOMICILIO", count(*) as fallecidos
+from dataFallecidos
+WHERE "PAIS DOMICILIO" ='PERU'
+AND "DEPARTAMENTO DOMICILIO" NOT IN ('','SIN REGISTRO')
+AND length(trim("DEPARTAMENTO DOMICILIO"))<>0
+group by 1;
